@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+</head>
+<body>
+    <!-- <div>
+        <input id="search" type="text" placeholder="enter yur city" spellcheck="false" >
+        <button id="SearchBtn" ></button>
+    </div> -->
+     
+
+    <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
+        <input id="search" type="text" placeholder="enter yur city" spellcheck="false"  class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Search" aria-label="Search">
+        <button  id="SearchBtn" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
+            Search
+        </button>
+    </div>
+
+
+
+    
+    <div>
+        <P id="city"  ></P>
+        <p id="date"></p>
+    </div>
+    <div>
+        <h1 id="temperature"></h1>
+        <P id="humidity"></P> 
+        <p id="wind"></p>
+        <p id="description"></p>
+        
+    </div>
+    <div id="weather-info">
+         
+    </div>
+<p id="description"></p>
+
+<div id="local-time"></div>
+
+    <script  src="./script.js"></script>
+</body>
+</html>
