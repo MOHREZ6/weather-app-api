@@ -1,74 +1,68 @@
- 
+const searchBox = document.querySelector("#search");
+const SearchBtn = document.querySelector("#SearchBtn");
 
+const apiKey = "97cdbdcd15f7bd360eaf5695cc26bcf9";
+const apiUrl =
+  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-//   const cityName=document.getElementById('.city');
-// const date=document.getElementById('#date'); 
-// const temperature=document.getElementById('#temperature');
-// const humidity=document.getElementById('#humidity');
-// const wind=document.getElementById('#wind');
-// const description=document.getElementById('#description');
- 
+let intervalId;
 
-const  searchBox=document.querySelector("#search");
-const  SearchBtn=document.querySelector("#SearchBtn");
+async function getWeather(city) {
+  const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+  var responseData = await response.json();
+  // console.log(responseData);
 
+  document.querySelector("#city").innerHTML = responseData.name;
+  document.querySelector("#temperature").innerHTML =
+    Math.round(responseData.main.temp) + "°C";
+  document.querySelector("#humidity").innerHTML =
+    responseData.main.humidity + "%";
+  document.querySelector("#humidity").innerHTML =
+    responseData.wind.speed + "km/h";
+  document.querySelector("#description").innerHTML =
+    responseData.weather[0].description;
 
-const apiKey='97cdbdcd15f7bd360eaf5695cc26bcf9';
-    const apiUrl='https://api.openweathermap.org/data/2.5/weather?units=metric&q='
+  const { lat, lon } = responseData.coord;
 
-    
-    async function getWeather(city) {
-        const response = await fetch(apiUrl +city+`&appid=${apiKey}`);
-        var data = await response.json();
-        // console.log(data);
+  const TimeApiKey = "RLSGXSRRNDO3";
+  const TimeZonesUrl =
+    "http://api.timezonedb.com/v2.1/get-time-zone?format=json";
 
-        document.querySelector('#city').innerHTML=data.name;
-        document.querySelector('#temperature').innerHTML=Math.round(data.main.temp)+"°C";
-        document.querySelector('#humidity').innerHTML=data.main.humidity+"%"; 
-        document.querySelector('#humidity').innerHTML=data.wind.speed+"km/h";
-        document.querySelector('#description').innerHTML=data.weather[0].description;
+  const timeZoneResponse = await fetch(
+    TimeZonesUrl +
+      `&key=${TimeApiKey}` +
+      `&by=position&lat=${lat}` +
+      `&lng=${lon}`
+  );
+  const timeZoneData = await timeZoneResponse.json();
+  let timeZone = new Date(timeZoneData.formatted);
 
-        const { lat, lon } = data.coord;
+  console.log(timeZoneData);
 
-        
-        const TimeApiKey='RLSGXSRRNDO3';
-        const TimeZonesUrl='http://api.timezonedb.com/v2.1/get-time-zone?format=json'
-    
-        
-          const timeZoneResponse =await fetch(TimeZonesUrl +`&key=${TimeApiKey}`+`&by=position&lat=${lat}`+`&lng=${lon}`);
-          const timeZoneData=await timeZoneResponse.json();
-          const timeZone = timeZoneData.formatted;
-          console.log(timeZoneData );
+  if (intervalId) {
+    clearInterval(intervalId);
+  }
 
-          console.log(timeZone );
-          
+  function updateLocalTime() {
+    timeZone.setSeconds(timeZone.getSeconds() + 1);
+    document.querySelector(
+      "#local-time"
+    ).innerHTML = `Local Time: ${timeZone.toLocaleTimeString()}`;
+  }
 
-          
-          function updateLocalTime() {
-            const localTime =  timeZone ;
-            document.querySelector('#local-time').innerHTML = `Local Time: ${localTime}`;
-             
-        };
-    
-        // Update local time every second
-        updateLocalTime();
-    
-      };
-          
-       
-     
+  intervalId = setInterval(updateLocalTime, 1000);
+  updateLocalTime();
+}
 
+SearchBtn.addEventListener("click", () => {
+  getWeather(searchBox.value);
 
-      SearchBtn.addEventListener("click",()=>{
-        getWeather(searchBox.value);
+  searchBox.value = "";
+});
 
-          searchBox.value="";
-      });
-
-
-     
-   
-     
- 
-
-    
+searchBox.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    getWeather(searchBox.value);
+    searchBox.value = "";
+  }
+});
