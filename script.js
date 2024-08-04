@@ -25,7 +25,7 @@ async function getWeather(city) {
 
   const TimeApiKey = "RLSGXSRRNDO3";
   const TimeZonesUrl =
-    "http://api.timezonedb.com/v2.1/get-time-zone?format=json";
+    "https://api.timezonedb.com/v2.1/get-time-zone?format=json";
 
   const timeZoneResponse = await fetch(
     TimeZonesUrl +
