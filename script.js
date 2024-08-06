@@ -1,3 +1,4 @@
+
 const searchBox = document.querySelector("#search");
 const SearchBtn = document.querySelector("#SearchBtn");
 
@@ -10,7 +11,7 @@ let intervalId;
 async function getWeather(city) {
   const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
   var responseData = await response.json();
-  console.log(responseData);
+  // console.log(responseData);
 
   document.querySelector("#city").innerHTML = responseData.name;
   document.querySelector("#temperature").innerHTML =
@@ -68,3 +69,4 @@ searchBox.addEventListener("keydown", (event) => {
     searchBox.value = "";
   }
 });
+ 
